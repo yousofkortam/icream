@@ -307,14 +307,6 @@ a > code {
     }
 }
 
-.container-fluid {
-    width: 100%;
-    margin-right: auto;
-    margin-left: auto;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-
 .col-4,
 .col-8,
 .col,
@@ -950,7 +942,7 @@ textarea.form-control {
     min-width: 0;
     word-wrap: break-word;
     border: 1px solid rgba(0, 0, 0, .05);
-    border-radius: .375rem;
+   /* border-radius: 375rem;*/
     background-color: #fff;
     background-clip: border-box;
 }

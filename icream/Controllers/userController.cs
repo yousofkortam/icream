@@ -39,7 +39,7 @@ namespace icream.Controllers
             // TODO
             if (user.image == null)
             {
-                user.image = "/attachs/image/Default-photo.jpg";
+                user.image = "/attachs/image/Profiles/Default-photo.jpg";
             }
             db = new icreamContext();
             db.Users.Add(user);
@@ -63,11 +63,12 @@ namespace icream.Controllers
             ViewBag.isTheUser = (id == userId);
             db = new icreamContext();
             var userData = db.Users.Where(n => n.id == id).ToList().SingleOrDefault();
+
             return View(userData);
         }
 
         [HttpPost]
-        public IActionResult profile(User user)
+        public IActionResult profile(User user, IFormFile img)
         {
             // TODO
             user.id = (int)HttpContext.Session.GetInt32("userid");
@@ -77,7 +78,13 @@ namespace icream.Controllers
             {
                 return RedirectToAction("profile");
             }
-
+            if (img != null)
+            {
+                string path = $"wwwroot/attachs/image/Profiles/{img.FileName}";
+                FileStream fileStream = new FileStream(path, FileMode.Create);
+                img.CopyTo(fileStream);
+                user_data.image = $"/attachs/image/Profiles/{img.FileName}";
+            }
             user_data.name = user.name;
             user_data.email = user.email;
             user_data.age = user.age;
