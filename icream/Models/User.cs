@@ -12,6 +12,7 @@ namespace icream.Models
     {
         public User()
         {
+            Contacts = new HashSet<Contact>();
             Orders = new HashSet<Order>();
         }
 
@@ -29,13 +30,12 @@ namespace icream.Models
         [Required]
         [StringLength(150)]
         [Unicode(false)]
-        public string? password { get; set; }
+        public string password { get; set; }
+        [NotMapped]
+        [Compare("password", ErrorMessage = "Passwords not matches")]
+        public string confirm_password { get; set; }
         [StringLength(500)]
         [Unicode(false)]
-
-        [NotMapped]
-        [Compare("password", ErrorMessage ="Passwords not matches")]
-        public string confirm_password { get; set; }
         public string image { get; set; }
         [StringLength(500)]
         public string address { get; set; }
@@ -48,9 +48,10 @@ namespace icream.Models
         public int? postal_code { get; set; }
         [StringLength(100)]
         public string job_name { get; set; }
-
         public int? age { get; set; }
 
+        [InverseProperty("user")]
+        public virtual ICollection<Contact> Contacts { get; set; }
         [InverseProperty("user")]
         public virtual ICollection<Order> Orders { get; set; }
     }

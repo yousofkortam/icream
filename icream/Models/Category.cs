@@ -8,18 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace icream.Models
 {
-    [Table("Gallery")]
-    public partial class Gallery
+    [Table("Category")]
+    public partial class Category
     {
+        public Category()
+        {
+            Galleries = new HashSet<Gallery>();
+        }
+
         [Key]
         public int id { get; set; }
-        public int? category_id { get; set; }
-        [StringLength(500)]
-        [Unicode(false)]
-        public string image { get; set; }
+        [StringLength(50)]
+        public string name { get; set; }
 
-        [ForeignKey("category_id")]
-        [InverseProperty("Galleries")]
-        public virtual Category category { get; set; }
+        [InverseProperty("category")]
+        public virtual ICollection<Gallery> Galleries { get; set; }
     }
 }

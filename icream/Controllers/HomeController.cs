@@ -7,6 +7,7 @@ namespace icream.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        icreamContext db;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -15,14 +16,9 @@ namespace icream.Controllers
 
         public IActionResult Index()
         {
-            int? userId = HttpContext.Session.GetInt32("userid");
-            if (userId == null)
-            {
-                ViewBag.userLoged = false;
-            }else
-            {
-                ViewBag.userLoged = true;
-            }
+            db = new icreamContext();
+            List<Gallery> gallery = db.Galleries.ToList();
+            ViewBag.gallery = gallery;
             return View();
         }
 

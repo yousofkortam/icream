@@ -17,5 +17,9 @@ namespace icream.Models
         [StringLength(900)]
         public string message { get; set; }
         public int? user_id { get; set; }
+
+        [ForeignKey("user_id")]
+        [InverseProperty("Contacts")]
+        public virtual User user { get; set; }
     }
 }

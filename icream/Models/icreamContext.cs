@@ -18,6 +18,7 @@ namespace icream.Models
         {
         }
 
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Chef> Chefs { get; set; }
         public virtual DbSet<Clients_say> Clients_says { get; set; }
         public virtual DbSet<Contact> Contacts { get; set; }
@@ -38,6 +39,22 @@ namespace icream.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Contact>(entity =>
+            {
+                entity.HasOne(d => d.user)
+                    .WithMany(p => p.Contacts)
+                    .HasForeignKey(d => d.user_id)
+                    .HasConstraintName("FK_Contacts_Users");
+            });
+
+            modelBuilder.Entity<Gallery>(entity =>
+            {
+                entity.HasOne(d => d.category)
+                    .WithMany(p => p.Galleries)
+                    .HasForeignKey(d => d.category_id)
+                    .HasConstraintName("FK_Gallery_Category");
+            });
+
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.HasOne(d => d.product)
