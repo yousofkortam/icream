@@ -1,0 +1,50 @@
+﻿@model User;
+@{
+    ViewData["Title"] = "register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<br />
+<div class="row justify-content-center">
+    <div class="col-lg-9">
+        <div class="contact-form bg-light rounded p-5">
+            <div id="success"></div>
+            <h3 style="text-align:center;">REGITSER HERE</h3>
+            <form name="sentMessage" id="contactForm" novalidate="novalidate" method="post">
+                <div class="control-group">
+                    <label>Name</label>
+                    <input type="text" asp-for=name class="form-control" placeholder="Name *" />
+                    <span asp-validation-for=name class="text text-danger"></span>
+                </div>
+                <div class="control-group">
+                    <label>Username</label>
+                    <input type="text" asp-for=username class="form-control" placeholder="Username *" />
+                    <span asp-validation-for=username class="text text-danger"></span>
+                </div>
+                <div class="control-group">
+                    <label>Email</label>
+                    <input type="email" asp-for=email class="form-control" placeholder="Email *" />
+                    <span asp-validation-for=email class="text text-danger"></span>
+                </div>
+                <div class="control-group">
+                    <label>Password</label>
+                    <input type="password" asp-for=password class="form-control" placeholder="Password *" />
+                    <span asp-validation-for=password class="text text-danger"></span>
+                </div>
+                <div class="control-group">
+                    <label>Confirm Password</label>
+                    <input type="password" asp-for=confirm_password class="form-control" placeholder="Confirm Password *" />
+                    <span asp-validation-for=confirm_password class="text text-danger"></span>
+                </div>
+                <div>
+                    <button class="btn btn-primary btn-block py-3 px-5" type="submit">REGISTER</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
