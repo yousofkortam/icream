@@ -1,6 +1,6 @@
 ﻿@model Contact
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Contact";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
     <div class="container text-center py-5">
         <h1 class="text-white display-3 mt-lg-5">Contact</h1>
         <div class="d-inline-flex align-items-center text-white">
-            <p class="m-0"><a class="text-white" href="">Home</a></p>
+            <p class="m-0"><a class="text-white" href="/">Home</a></p>
             <i class="fa fa-circle px-3"></i>
             <p class="m-0">Contact</p>
         </div>
@@ -38,12 +38,14 @@
                     <div id="success"></div>
                     <form name="sentMessage" id="contactForm" novalidate="novalidate" method="post">
                         <div class="control-group">
-                            <input type="text" asp-for=subject class="form-control p-4" id="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
+                            <input asp-for=subject class="form-control p-4" id="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
                             <p class="help-block text-danger"></p>
+                            <span class="text text-danger" asp-validation-for=subject></span>
                         </div>
                         <div class="control-group">
                             <textarea class="form-control p-4" asp-for=message rows="6" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
                             <p class="help-block text-danger"></p>
+                            <span class="text text-danger" asp-validation-for=message></span>
                         </div>
                         <div>
                             <button class="btn btn-primary btn-block py-3 px-5" type="submit" id="sendMessageButton">Send Message</button>
@@ -55,3 +57,7 @@
     </div>
 </div>
 <!-- Contact End -->
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

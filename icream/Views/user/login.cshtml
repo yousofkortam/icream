@@ -1,5 +1,6 @@
-﻿
+﻿@model User
 @{
+    ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br /><br />
@@ -10,12 +11,14 @@
             <h3 style="text-align:center;">LOGIN HERE</h3>
             <form name="sentMessage" id="contactForm" novalidate="novalidate" method="post">
                 <div class="control-group">
-                    <label>Username</label>
-                    <input type="text" name="username" class="form-control"  placeholder="Username"/>
+                    <label>Email or username</label>
+                    <input type="text" asp-for=username class="form-control"  placeholder="Email or username"/>
+                    <span class="text text-danger" asp-validation-for=username></span>
                 </div>
                 <div class="control-group">
                     <label>Password</label>
-                    <input type="password" name="password" class="form-control" placeholder="Password"/>
+                    <input type="password" asp-for=password class="form-control" placeholder="Password"/>
+                    <span class="text text-danger" asp-validation-for=password></span>
                 </div>
                 <br />
                 <div>

@@ -17,6 +17,8 @@ namespace icream.Models
         [StringLength(900)]
         public string message { get; set; }
         public int? user_id { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime? created_at { get; set; }
 
         [ForeignKey("user_id")]
         [InverseProperty("Contacts")]

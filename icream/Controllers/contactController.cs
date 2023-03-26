@@ -20,6 +20,7 @@ namespace icream.Controllers
             }
             db = new icreamContext();
             contact.user_id = HttpContext.Session.GetInt32("userid");
+            contact.created_at = DateTime.Now;
             db.Contacts.Add(contact);
             db.SaveChanges();
             ViewBag.contactStatus = "Message sent successfully";

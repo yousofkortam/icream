@@ -49,6 +49,7 @@ namespace icream.Models
         [StringLength(100)]
         public string job_name { get; set; }
         public int? age { get; set; }
+        public DateTime? created_at { get; set; }
 
         [InverseProperty("user")]
         public virtual ICollection<Contact> Contacts { get; set; }

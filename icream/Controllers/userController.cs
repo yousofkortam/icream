@@ -18,7 +18,7 @@ namespace icream.Controllers
         {
             // TODO
             db = new icreamContext();
-            var getUser = db.Users.Where(n => n.username == username && n.password == password).ToList().SingleOrDefault();
+            var getUser = db.Users.Where(n => (n.username == username || n.email == username) && n.password == password).SingleOrDefault();
             if (getUser == null)
             {
                 ViewBag.status = "Incorrect username or password";
@@ -42,6 +42,7 @@ namespace icream.Controllers
                 user.image = "/attachs/image/Profiles/Default-photo.jpg";
             }
             db = new icreamContext();
+            user.created_at = DateTime.Now;
             db.Users.Add(user);
             db.SaveChanges();
             return RedirectToAction("login");
@@ -56,27 +57,26 @@ namespace icream.Controllers
         public IActionResult profile(int id)
         {
             int? userId = HttpContext.Session.GetInt32("userid");
-            if (userId == null)
-            {
-                return RedirectToAction("login");
-            }
             ViewBag.isTheUser = (id == userId);
             db = new icreamContext();
             var userData = db.Users.Where(n => n.id == id).ToList().SingleOrDefault();
-
+            if (userData == null)
+            {
+                return RedirectToAction("notfound");
+            }
             return View(userData);
         }
 
         [HttpPost]
-        public IActionResult profile(User user, IFormFile img)
+        public IActionResult update(User user, IFormFile img)
         {
             // TODO
             user.id = (int)HttpContext.Session.GetInt32("userid");
             db = new icreamContext();
-            var user_data = db.Users.Where(n => n.id == user.id).ToList().SingleOrDefault();
+            var user_data = db.Users.Where(n => n.id == user.id).SingleOrDefault();
             if (user_data == null)
             {
-                return RedirectToAction("profile");
+                return RedirectToAction("profile", user.id);
             }
             if (img != null)
             {
@@ -93,8 +93,16 @@ namespace icream.Controllers
             user_data.country = user.country;
             user_data.postal_code = user.postal_code;
             user_data.bio = user.bio;
+            user_data.job_name = user.job_name;
             db.SaveChanges();
-            return RedirectToAction("profile");
+            //return RedirectToAction("profile", user.id);
+            return new RedirectResult($"/user/profile/{user.id}");
+        }
+
+
+        public IActionResult notfound()
+        {
+            return View();
         }
     }
 }

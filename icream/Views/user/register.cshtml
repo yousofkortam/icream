@@ -1,6 +1,6 @@
 ﻿@model User;
 @{
-    ViewData["Title"] = "register";
+    ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br />
@@ -36,6 +36,7 @@
                     <input type="password" asp-for=confirm_password class="form-control" placeholder="Confirm Password *" />
                     <span asp-validation-for=confirm_password class="text text-danger"></span>
                 </div>
+                <br />
                 <div>
                     <button class="btn btn-primary btn-block py-3 px-5" type="submit">REGISTER</button>
                 </div>
