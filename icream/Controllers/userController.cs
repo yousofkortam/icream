@@ -37,12 +37,9 @@ namespace icream.Controllers
         public IActionResult register(User user)
         {
             // TODO
-            if (user.image == null)
-            {
-                user.image = "/attachs/image/Profiles/Default-photo.jpg";
-            }
-            db = new icreamContext();
+            user.image = "/attachs/image/Profiles/Default-photo.jpg";
             user.created_at = DateTime.Now;
+            db = new icreamContext();
             db.Users.Add(user);
             db.SaveChanges();
             return RedirectToAction("login");
