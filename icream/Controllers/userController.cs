@@ -92,7 +92,6 @@ namespace icream.Controllers
             user_data.bio = user.bio;
             user_data.job_name = user.job_name;
             db.SaveChanges();
-            //return RedirectToAction("profile", user.id);
             return new RedirectResult($"/user/profile/{user.id}");
         }
 

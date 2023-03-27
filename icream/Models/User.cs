@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace icream.Models
@@ -50,6 +49,7 @@ namespace icream.Models
         [StringLength(100)]
         public string job_name { get; set; }
         public int? age { get; set; }
+        [Column(TypeName = "datetime")]
         public DateTime? created_at { get; set; }
 
         [InverseProperty("user")]

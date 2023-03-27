@@ -14,6 +14,7 @@ namespace icream.Models
         public Category()
         {
             Galleries = new HashSet<Gallery>();
+            Products = new HashSet<Product>();
         }
 
         [Key]
@@ -23,5 +24,7 @@ namespace icream.Models
 
         [InverseProperty("category")]
         public virtual ICollection<Gallery> Galleries { get; set; }
+        [InverseProperty("category")]
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

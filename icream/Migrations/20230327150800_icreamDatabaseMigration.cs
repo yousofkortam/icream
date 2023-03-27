@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace icream.Migrations
 {
     /// <inheritdoc />
-    public partial class icreamDatabaseMigraion : Migration
+    public partial class icreamDatabaseMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,21 +60,6 @@ namespace icream.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    price = table.Column<double>(type: "float", nullable: true),
-                    image = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Services",
                 columns: table => new
                 {
@@ -107,7 +92,7 @@ namespace icream.Migrations
                     postal_code = table.Column<int>(type: "int", nullable: true),
                     job_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     age = table.Column<int>(type: "int", nullable: true),
-                    created_at = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    created_at = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -128,6 +113,27 @@ namespace icream.Migrations
                     table.PrimaryKey("PK_Gallery", x => x.id);
                     table.ForeignKey(
                         name: "FK_Gallery_Category",
+                        column: x => x.category_id,
+                        principalTable: "Category",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    price = table.Column<double>(type: "float", nullable: true),
+                    image = table.Column<string>(type: "varchar(500)", unicode: false, maxLength: 500, nullable: true),
+                    category_id = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Products_Category",
                         column: x => x.category_id,
                         principalTable: "Category",
                         principalColumn: "id");
@@ -197,6 +203,11 @@ namespace icream.Migrations
                 name: "IX_Orders_user_id",
                 table: "Orders",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_category_id",
+                table: "Products",
+                column: "category_id");
         }
 
         /// <inheritdoc />
@@ -221,13 +232,13 @@ namespace icream.Migrations
                 name: "Services");
 
             migrationBuilder.DropTable(
-                name: "Category");
-
-            migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Category");
         }
     }
 }

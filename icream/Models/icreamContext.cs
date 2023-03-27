@@ -68,6 +68,14 @@ namespace icream.Models
                     .HasConstraintName("FK_Orders_Users");
             });
 
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasOne(d => d.category)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.category_id)
+                    .HasConstraintName("FK_Products_Category");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

@@ -23,7 +23,11 @@ namespace icream.Models
         [StringLength(500)]
         [Unicode(false)]
         public string image { get; set; }
+        public int? category_id { get; set; }
 
+        [ForeignKey("category_id")]
+        [InverseProperty("Products")]
+        public virtual Category category { get; set; }
         [InverseProperty("product")]
         public virtual ICollection<Order> Orders { get; set; }
     }

@@ -191,6 +191,9 @@ namespace icream.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
+                    b.Property<int?>("category_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("image")
                         .HasMaxLength(500)
                         .IsUnicode(false)
@@ -204,6 +207,8 @@ namespace icream.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("id");
+
+                    b.HasIndex("category_id");
 
                     b.ToTable("Products");
                 });
@@ -262,7 +267,7 @@ namespace icream.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("created_at")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("email")
                         .IsRequired()
@@ -339,9 +344,21 @@ namespace icream.Migrations
                     b.Navigation("user");
                 });
 
+            modelBuilder.Entity("icream.Models.Product", b =>
+                {
+                    b.HasOne("icream.Models.Category", "category")
+                        .WithMany("Products")
+                        .HasForeignKey("category_id")
+                        .HasConstraintName("FK_Products_Category");
+
+                    b.Navigation("category");
+                });
+
             modelBuilder.Entity("icream.Models.Category", b =>
                 {
                     b.Navigation("Galleries");
+
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("icream.Models.Product", b =>
