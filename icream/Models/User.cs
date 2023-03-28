@@ -12,6 +12,8 @@ namespace icream.Models
     {
         public User()
         {
+            Carts = new HashSet<Cart>();
+            Clients_says = new HashSet<Clients_say>();
             Contacts = new HashSet<Contact>();
             Orders = new HashSet<Order>();
         }
@@ -49,9 +51,12 @@ namespace icream.Models
         [StringLength(100)]
         public string job_name { get; set; }
         public int? age { get; set; }
-        [Column(TypeName = "datetime")]
         public DateTime? created_at { get; set; }
 
+        [InverseProperty("user")]
+        public virtual ICollection<Cart> Carts { get; set; }
+        [InverseProperty("user")]
+        public virtual ICollection<Clients_say> Clients_says { get; set; }
         [InverseProperty("user")]
         public virtual ICollection<Contact> Contacts { get; set; }
         [InverseProperty("user")]

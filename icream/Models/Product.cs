@@ -12,6 +12,7 @@ namespace icream.Models
     {
         public Product()
         {
+            Carts = new HashSet<Cart>();
             Orders = new HashSet<Order>();
         }
 
@@ -28,6 +29,8 @@ namespace icream.Models
         [ForeignKey("category_id")]
         [InverseProperty("Products")]
         public virtual Category category { get; set; }
+        [InverseProperty("product")]
+        public virtual ICollection<Cart> Carts { get; set; }
         [InverseProperty("product")]
         public virtual ICollection<Order> Orders { get; set; }
     }

@@ -19,6 +19,8 @@ namespace icream.Controllers
             db = new icreamContext();
             List<Gallery> gallery = db.Galleries.ToList();
             ViewBag.gallery = gallery;
+            List<Product> products = db.Products.ToList();
+            ViewBag.products = products;
             return View();
         }
 

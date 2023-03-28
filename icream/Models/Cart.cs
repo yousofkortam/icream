@@ -8,24 +8,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace icream.Models
 {
-    [Table("Clients_say")]
-    public partial class Clients_say
+    public partial class Cart
     {
         [Key]
         public int id { get; set; }
-        [StringLength(50)]
-        public string name { get; set; }
-        [StringLength(50)]
-        public string job_name { get; set; }
-        [StringLength(500)]
-        public string review { get; set; }
+        public int? product_id { get; set; }
         public int? user_id { get; set; }
-        [StringLength(500)]
-        [Unicode(false)]
-        public string image { get; set; }
+        public int? checked_out { get; set; }
 
+        [ForeignKey("product_id")]
+        [InverseProperty("Carts")]
+        public virtual Product product { get; set; }
         [ForeignKey("user_id")]
-        [InverseProperty("Clients_says")]
+        [InverseProperty("Carts")]
         public virtual User user { get; set; }
     }
 }

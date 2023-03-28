@@ -19,11 +19,11 @@
     <None Include="wwwroot\img\portfolio-4.jpg" />
     <None Include="wwwroot\img\portfolio-5.jpg" />
     <None Include="wwwroot\img\portfolio-6.jpg" />
-    <None Include="wwwroot\img\product-1.jpg" />
-    <None Include="wwwroot\img\product-2.jpg" />
-    <None Include="wwwroot\img\product-3.jpg" />
-    <None Include="wwwroot\img\product-4.jpg" />
-    <None Include="wwwroot\img\product-5.jpg" />
+    <None Include="wwwroot\attachs\image\Products\product-1.jpg" />
+    <None Include="wwwroot\attachs\image\Products\product-2.jpg" />
+    <None Include="wwwroot\attachs\image\Products\product-3.jpg" />
+    <None Include="wwwroot\attachs\image\Products\product-4.jpg" />
+    <None Include="wwwroot\attachs\image\Products\product-5.jpg" />
     <None Include="wwwroot\img\promotion.jpg" />
     <None Include="wwwroot\img\service-1.jpg" />
     <None Include="wwwroot\img\service-2.jpg" />

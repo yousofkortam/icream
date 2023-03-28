@@ -18,6 +18,7 @@ namespace icream.Models
         {
         }
 
+        public virtual DbSet<Cart> Carts { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Chef> Chefs { get; set; }
         public virtual DbSet<Clients_say> Clients_says { get; set; }
@@ -33,12 +34,33 @@ namespace icream.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=icreamdb.mssql.somee.com;user id=yousofkortam_SQLLogin_1;pwd=qbnd39ai6q;Initial Catalog=icreamdb;Encrypt=False");
+                optionsBuilder.UseSqlServer("Data Source=icreamdb.mssql.somee.com;Initial Catalog=icreamdb;Persist Security Info=True;User ID=yousofkortam_SQLLogin_1;Password=qbnd39ai6q;Encrypt=False");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.HasOne(d => d.product)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.product_id)
+                    .HasConstraintName("FK_Carts_Products");
+
+                entity.HasOne(d => d.user)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.user_id)
+                    .HasConstraintName("FK_Carts_Users");
+            });
+
+            modelBuilder.Entity<Clients_say>(entity =>
+            {
+                entity.HasOne(d => d.user)
+                    .WithMany(p => p.Clients_says)
+                    .HasForeignKey(d => d.user_id)
+                    .HasConstraintName("FK__Clients_s__user___3E52440B");
+            });
+
             modelBuilder.Entity<Contact>(entity =>
             {
                 entity.HasOne(d => d.user)
@@ -73,7 +95,7 @@ namespace icream.Models
                 entity.HasOne(d => d.category)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.category_id)
-                    .HasConstraintName("FK_Products_Category");
+                    .HasConstraintName("FK__Products__catego__3B75D760");
             });
 
             OnModelCreatingPartial(modelBuilder);
