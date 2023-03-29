@@ -28,6 +28,7 @@ namespace icream.Controllers
             }
             db = new icreamContext();
             var data = db.Carts.Where(n => n.id == id).SingleOrDefault();
+            if (data == null) return RedirectToAction("Index");
             db.Carts.Remove(data);
             db.SaveChanges();
             return RedirectToAction("Index");
