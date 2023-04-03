@@ -45,11 +45,21 @@
             <div class="col-xl-8 order-xl-1">
                 <div class="card bg-secondary shadow">
                     <div class="card-header bg-white border-0">
-                        <div class="row align-items-center">
-                            <div class="col-8">
-                                <h3 class="mb-0">My account</h3>
+                        @if (ViewBag.isTheUser) 
+                        {
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <a href="/order" class="btn btn-info mb-0" style="color:white">My Orders</a>
+                                </div>
                             </div>
-                        </div>
+                        }else
+                        {
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h4>Profile</h4>
+                                </div>
+                            </div>
+                        }
                     </div>
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data">
@@ -131,6 +141,15 @@
                                             <div class="form-group focused">
                                                 <label class="form-control-label" for="input-address">Address</label>
                                                 <input id="input-address" asp-for=address class="form-control form-control-alternative" placeholder="Home Address" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group focused">
+                                                <label class="form-control-label" for="input-address">Phone number</label>
+                                                <input id="input-address" asp-for=phone class="form-control form-control-alternative" placeholder="Phone number" type="text">
                                             </div>
                                         </div>
                                     </div>

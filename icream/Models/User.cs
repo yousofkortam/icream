@@ -52,6 +52,9 @@ namespace icream.Models
         public string job_name { get; set; }
         public int? age { get; set; }
         public DateTime? created_at { get; set; }
+        [StringLength(13)]
+        [Unicode(false)]
+        public string phone { get; set; }
 
         [InverseProperty("user")]
         public virtual ICollection<Cart> Carts { get; set; }

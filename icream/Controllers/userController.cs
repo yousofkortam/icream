@@ -91,10 +91,10 @@ namespace icream.Controllers
             user_data.postal_code = user.postal_code;
             user_data.bio = user.bio;
             user_data.job_name = user.job_name;
+            user_data.phone = user.phone;
             db.SaveChanges();
             return new RedirectResult($"/user/profile/{user.id}");
         }
-
 
         public IActionResult notfound()
         {

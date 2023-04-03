@@ -33,5 +33,18 @@ namespace icream.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
+        public IActionResult Order()
+        {
+            int? uid = HttpContext.Session.GetInt32("userid");
+            if (uid == null)
+            {
+                return RedirectToAction("login", "user");
+            }
+            db = new icreamContext();
+            var carts = db.Carts.Where(u => u.user_id == uid).Include(p => p.product).ToList();
+            return View(carts);
+        }
     }
 }
