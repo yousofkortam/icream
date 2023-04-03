@@ -55,6 +55,7 @@ namespace icream.Models
         [StringLength(13)]
         [Unicode(false)]
         public string phone { get; set; }
+        public int? role { get; set; }
 
         [InverseProperty("user")]
         public virtual ICollection<Cart> Carts { get; set; }

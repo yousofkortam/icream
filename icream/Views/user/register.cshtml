@@ -20,6 +20,7 @@
                     <label>Username</label>
                     <input type="text" asp-for=username class="form-control" placeholder="Username *" />
                     <span asp-validation-for=username class="text text-danger"></span>
+                    <span class="text text-danger">@ViewBag.UsernameIsExist</span>
                 </div>
                 <div class="control-group">
                     <label>Email</label>

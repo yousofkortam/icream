@@ -18,7 +18,7 @@ namespace icream.Controllers
         {
             // TODO
             db = new icreamContext();
-            var getUser = db.Users.Where(n => (n.username == username || n.email == username) && n.password == password).SingleOrDefault();
+            var getUser = db.Users.Where(n => (n.username == username || n.email == username) && n.password == password && n.role == 1).SingleOrDefault();
             if (getUser == null)
             {
                 ViewBag.status = "Incorrect username or password";
@@ -37,9 +37,17 @@ namespace icream.Controllers
         public IActionResult register(User user)
         {
             // TODO
+            db = new icreamContext();
+            var exist = db.Users.Where(n => n.username == user.username).SingleOrDefault();
+            if (exist != null)
+            {
+                ViewBag.UsernameIsExist = "username already in use";
+                return View();
+            }
+
             user.image = "/attachs/image/Profiles/Default-photo.jpg";
             user.created_at = DateTime.Now;
-            db = new icreamContext();
+            user.role = 1; // 1 -> user
             db.Users.Add(user);
             db.SaveChanges();
             return RedirectToAction("login");
