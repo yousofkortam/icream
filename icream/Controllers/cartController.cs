@@ -44,7 +44,20 @@ namespace icream.Controllers
             }
             db = new icreamContext();
             var carts = db.Carts.Where(u => u.user_id == uid).Include(p => p.product).ToList();
-            return View(carts);
+            if (carts != null)
+            {
+                foreach (var cart in carts)
+                {
+                    Order order = new Order();
+                    order.user_id = uid;
+                    order.product_id = cart.product_id;
+                    db.Orders.Add(order);
+                }
+                db.SaveChanges();
+                db.Carts.RemoveRange(carts);
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "orders");
         }
     }
 }

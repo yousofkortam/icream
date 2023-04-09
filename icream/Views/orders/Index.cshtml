@@ -1,8 +1,10 @@
-﻿@model List<Cart>
+﻿@model List<Order>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@*All orders page*@
+
 
 <section class="h-100">
     <div class="container h-100 py-5">
@@ -10,73 +12,67 @@
             <div class="col-10">
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+                    <h3 class="fw-normal mb-0 text-black">Your Orders</h3>
                     <div>
                         <p class="mb-0 mr-3">
-                            <span class="text-muted">Cart items:</span> <a href="#!" class="text-body">
+                            <span id="OrderCount" class="text-muted">#Orders:</span> <a href="#!" class="text-body">
                                 @Model.Count
                             </a>
                         </p>
                     </div>
                 </div>
+                <hr class="mb-4" style="height: 2px; background-color: #F195B2; opacity: 1;">   
 
-                @{
-                    double? TotalAmmount = 0;
-                }
 
                 @if (Model.Count == 0)
                 {
                     <div class="card rounded-3 mb-4">
                         <div class="card-body p-4">
                             <div class="row d-flex justify-content-center align-items-center">
-                                
-                                <h4 style="text-align: center"> Your cart is empty </h4>
-                                
+
+                                <h4 style="text-align: center"> Your Orders is empty </h4>
+
                             </div>
                         </div>
                     </div>
                 }
 
-                @foreach(Cart cart in Model)
+                @foreach (Order order in Model)
                 {
-                    <div class="card rounded-3 mb-4" id="product_@cart.id">
+                    <div id="Order_@order.id" class="card rounded-3 mb-4">
                         <div class="card-body p-4">
                             <div class="row d-flex justify-content-between align-items-center">
                                 <div class="col-md-2 col-lg-2 col-xl-2">
-                                    <img src="@cart.product.image"
+                                    <img src="@order.product.image"
                                          class="img-fluid rounded-3" alt="Cotton T-shirt">
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-3">
-                                    <p class="lead fw-normal mb-2">@cart.product.name</p>
-                                    <p><span class="text-muted">Category: </span>
+                                    <p class="lead fw-normal mb-2">@order.product.name</p>
+                                    @*<p><span class="text-muted">Status: <span class="text-info">Ordered</span></span>*@
+                                    @*<p><span class="text-muted">Status: <span class="text-info">Shipped</span></span>*@
+                                    @*<p><span class="text-muted">Status: <span class="text-info">On the way</span></span>*@
+                                    <p><span class="text-muted">Status: <span class="text-success">Delivered</span></span>
+
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                    
                                 </div>
                                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                    <h5 class="mb-0" id="price_@cart.id">$@cart.product.price</h5>
+                                    <h5 class="mb-0" id="price_@order.id">$@order.product.price</h5>
                                 </div>
                                 <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                    <a href="/cart/remove/@cart.id" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
+                                    <a type="button" onclick="cancel(@order.id)" class="close" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    TotalAmmount += (cart.product.price * 1);
                 }
 
-                <hr class="mb-4" style="height: 2px; background-color: #F195B2; opacity: 1;">
-                @if (Model.Count != 0)
-                {
-                    <div class="d-flex justify-content-between p-4 mb-4" id="totalAmm" style="background-color: #e1f5fe;">
-                        <h5 class="fw-bold mb-0">Total:</h5>
-                        <h5 id="ID_TotalAmmount" class="fw-bold mb-0">@TotalAmmount$</h5>
-                    </div>
-                    <a onclick="return confirm('Order Now?')" href="/cart/Order" type="button" class="btn btn-info btn-block btn-lg">Order now</a>
-                }else
+                @if (Model.Count == 0)
                 {
                     <a type="button" href="/product" class="btn btn-info btn-block btn-lg">Shop now</a>
-                }
+                } 
 
 
             </div>
@@ -89,18 +85,19 @@
     <link href="/css/cart.css" rel="stylesheet">
 }
 
+
 @section Scripts {
     <script>
-        function Remove(cart_id) {
+        function cancel(order_id) {
             $.ajax({
                 method: "POST",
-                url: "/cart/remove",
+                url: "/orders/cancel",
                 data: {
-                    id: cart_id
+                    id: order_id
                 },
                 success: function (data) {
-                    console.log("Product Removed successfully");
-                    $("#product_" + cart_id).hide(200);
+                    console.log("Order canceled successfully");
+                    $("#Order_" + order_id).hide(200);
                 },
                 error: function (err) {
                     console.log("Error");

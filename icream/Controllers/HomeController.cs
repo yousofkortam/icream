@@ -1,5 +1,6 @@
 ﻿using icream.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace icream.Controllers
@@ -21,7 +22,27 @@ namespace icream.Controllers
             ViewBag.gallery = gallery;
             List<Product> products = db.Products.ToList();
             ViewBag.products = products;
+            List<Clients_say> reviews = db.Clients_says.Include(u => u.user).ToList();
+            ViewBag.reviews = reviews;
             return View();
+        }
+
+        public IActionResult addReview(string userReview)
+        {
+            var uid = HttpContext.Session.GetInt32("userid");
+            if (uid == null)
+            {
+                return RedirectToAction("login", "user");
+            }
+
+            db = new icreamContext();
+            Clients_say Review = new Clients_say();
+            Review.user_id = uid;
+            Review.review = userReview;
+            db.Clients_says.Add(Review);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
 
 

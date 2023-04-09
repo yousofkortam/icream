@@ -31,7 +31,7 @@ namespace icream.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult addMinAdmin()
+        public IActionResult addAdmin()
         {
             return View();
         }

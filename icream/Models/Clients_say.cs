@@ -13,16 +13,9 @@ namespace icream.Models
     {
         [Key]
         public int id { get; set; }
-        [StringLength(50)]
-        public string name { get; set; }
-        [StringLength(50)]
-        public string job_name { get; set; }
         [StringLength(500)]
         public string review { get; set; }
         public int? user_id { get; set; }
-        [StringLength(500)]
-        [Unicode(false)]
-        public string image { get; set; }
 
         [ForeignKey("user_id")]
         [InverseProperty("Clients_says")]
