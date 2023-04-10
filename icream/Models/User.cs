@@ -28,6 +28,7 @@ namespace icream.Models
         public string username { get; set; }
         [Required]
         [StringLength(150)]
+        [EmailAddress(ErrorMessage ="Invalid email address")]
         public string email { get; set; }
         [Required]
         [StringLength(150)]

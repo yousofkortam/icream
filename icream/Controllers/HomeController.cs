@@ -10,14 +10,14 @@ namespace icream.Controllers
         private readonly ILogger<HomeController> _logger;
         icreamContext db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, icreamContext db)
         {
             _logger = logger;
+            this.db = db;
         }
 
         public IActionResult Index()
         {
-            db = new icreamContext();
             List<Gallery> gallery = db.Galleries.ToList();
             ViewBag.gallery = gallery;
             List<Product> products = db.Products.ToList();
@@ -40,8 +40,6 @@ namespace icream.Controllers
             {
                 return RedirectToAction("login", "user");
             }
-
-            db = new icreamContext();
             Clients_say Review = new Clients_say();
             Review.user_id = uid;
             Review.review = userReview;

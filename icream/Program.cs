@@ -1,3 +1,5 @@
+using icream.Models;
+
 namespace icream
 {
     public class Program
@@ -9,6 +11,7 @@ namespace icream
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSession();
+            builder.Services.AddDbContext<icreamContext>();
 
             var app = builder.Build();
 

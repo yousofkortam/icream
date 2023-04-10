@@ -6,9 +6,14 @@ namespace icream.Controllers
     public class productController : Controller
     {
         icreamContext db;
+
+        public productController(icreamContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
-            db = new icreamContext();
             List<Product> products = db.Products.ToList();
             return View(products);
         }
@@ -20,7 +25,6 @@ namespace icream.Controllers
             {
                 return RedirectToAction("login", "user");
             }
-            db = new icreamContext();
             Cart cart = new Cart();
             cart.product_id = id;
             cart.user_id = user_id;

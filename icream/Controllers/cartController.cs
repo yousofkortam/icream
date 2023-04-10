@@ -7,9 +7,13 @@ namespace icream.Controllers
     public class cartController : Controller
     {
         icreamContext db;
+
+        public cartController(icreamContext db)
+        {
+            this.db = db;
+        }
         public IActionResult Index()
         {
-            db = new icreamContext();
             int? userid = HttpContext.Session.GetInt32("userid");
             if (userid == null)
             {
@@ -26,7 +30,6 @@ namespace icream.Controllers
             {
                 return RedirectToAction("login", "user");
             }
-            db = new icreamContext();
             var data = db.Carts.Where(n => n.id == id).SingleOrDefault();
             if (data == null) return RedirectToAction("Index");
             db.Carts.Remove(data);
@@ -42,7 +45,6 @@ namespace icream.Controllers
             {
                 return RedirectToAction("login", "user");
             }
-            db = new icreamContext();
             var carts = db.Carts.Where(u => u.user_id == uid).Include(p => p.product).ToList();
             if (carts != null)
             {

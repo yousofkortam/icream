@@ -8,6 +8,11 @@ namespace icream.Controllers
     {
         icreamContext db;
 
+        public userController(icreamContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult login()
         {
             return View();
@@ -17,7 +22,6 @@ namespace icream.Controllers
         public IActionResult login(string username, string password, bool is_admin)
         {
             // TODO
-            db = new icreamContext();
             var getUser = db.Users.Where(n => (n.username == username || n.email == username) && n.password == password && n.is_admin == is_admin).SingleOrDefault();
             if (getUser == null)
             {
@@ -38,7 +42,6 @@ namespace icream.Controllers
         public IActionResult register(User user)
         {
             // TODO
-            db = new icreamContext();
             var exist = db.Users.Where(n => n.username == user.username).SingleOrDefault();
             if (exist != null)
             {
@@ -64,7 +67,6 @@ namespace icream.Controllers
         {
             int? userId = HttpContext.Session.GetInt32("userid");
             ViewBag.isTheUser = (id == userId);
-            db = new icreamContext();
             var userData = db.Users.Where(n => n.id == id).ToList().SingleOrDefault();
             if (userData == null)
             {
@@ -78,7 +80,6 @@ namespace icream.Controllers
         {
             // TODO
             user.id = (int)HttpContext.Session.GetInt32("userid");
-            db = new icreamContext();
             var user_data = db.Users.Where(n => n.id == user.id).SingleOrDefault();
             if (user_data == null)
             {

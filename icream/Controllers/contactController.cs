@@ -6,6 +6,12 @@ namespace icream.Controllers
     public class contactController : Controller
     {
         icreamContext db;
+
+        public contactController(icreamContext db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -18,7 +24,6 @@ namespace icream.Controllers
             {
                 return RedirectToAction("login", "user");
             }
-            db = new icreamContext();
             contact.user_id = HttpContext.Session.GetInt32("userid");
             contact.created_at = DateTime.Now;
             db.Contacts.Add(contact);

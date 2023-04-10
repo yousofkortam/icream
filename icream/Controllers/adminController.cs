@@ -10,6 +10,10 @@ namespace icream.Controllers
     {
         icreamContext db;
 
+        public adminController(icreamContext db)
+        {
+            this.db = db;
+        }
 
         private bool isAdmin(int? uid)
         {
@@ -28,7 +32,6 @@ namespace icream.Controllers
             {
                 return RedirectToAction("login", "user");
             }
-            db = new icreamContext();
             var products = db.Products.Include(n => n.category).ToList();
             return View(products);
         }
@@ -56,7 +59,6 @@ namespace icream.Controllers
             {
                 return View();
             }
-            db = new icreamContext();
             var exist = db.Users.Where(n => n.username == user.username).SingleOrDefault();
             if (exist != null)
             {
@@ -89,7 +91,6 @@ namespace icream.Controllers
             FileStream fileStream = new FileStream(path, FileMode.Create);
             img.CopyTo(fileStream);
             product.image = $"/attachs/image/Products/{img.FileName}";
-            db = new icreamContext();
             db.Products.Add(product);
             db.SaveChanges();
             return RedirectToAction("dashboard");
@@ -102,7 +103,6 @@ namespace icream.Controllers
             {
                 return RedirectToAction("login", "user");
             }
-            db = new icreamContext();
             var product = db.Products.Find(id);
             if (product == null)
             {
@@ -114,7 +114,6 @@ namespace icream.Controllers
         [HttpPost]
         public IActionResult editProduct(Product product, int id)
         {
-            db = new icreamContext();
             var old_product = db.Products.Find(id);
             if (old_product == null)
             {
@@ -138,7 +137,6 @@ namespace icream.Controllers
             {
                 return RedirectToAction("login", "user");
             }
-            db = new icreamContext();
             var product = db.Products.Where(p => p.id == id).FirstOrDefault();
             if (product == null)
             {
