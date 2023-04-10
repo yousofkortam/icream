@@ -1,0 +1,54 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "editProduct";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+    icreamContext db = new icreamContext();
+    var category = db.Categories.ToList();
+}
+
+<!-- general form elements -->
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-title">Quick Example</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <form method="post" enctype="multipart/form-data">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input type="text" asp-for=name class="form-control" id="exampleInputEmail1" placeholder="Product Name">
+                <span class="text-danger" asp-validation-for="name"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Price</label>
+                <input type="number" asp-for=price class="form-control" id="exampleInputPassword1" placeholder="Product Price">
+                <span class="text-danger" asp-validation-for="price"></span>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" asp-for="category_id">
+                    @foreach (Category cat in category)
+                    {
+                        <option value="@cat.id">@cat.name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputFile">Image</label>
+                <input type="file" accept="img/jpg" name="img" asp-for=image id="exampleInputFile">
+                <p class="help-block">Enter your product photo here.</p>
+                <span class="text-danger" asp-validation-for="image"></span>
+            </div>
+        </div>
+
+        <div class="box-footer">
+            <input type="submit" value="Edit" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+

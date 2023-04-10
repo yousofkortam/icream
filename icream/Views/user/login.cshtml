@@ -20,6 +20,13 @@
                     <input type="password" asp-for=password class="form-control" placeholder="Password"/>
                     <span class="text text-danger" asp-validation-for=password></span>
                 </div>
+                <div class="form-check">
+                    <input class="form-check-input" name="is_admin" type="checkbox" value="true" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Admin
+                    </label>
+                </div>
+                
                 <br />
                 <div>
                     <button class="btn btn-primary btn-block py-3 px-5" type="submit">LOGIN</button>

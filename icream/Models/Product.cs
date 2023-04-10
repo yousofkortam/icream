@@ -19,10 +19,13 @@ namespace icream.Models
         [Key]
         public int id { get; set; }
         [StringLength(50)]
+        [Required]
         public string name { get; set; }
+        [Required]
         public double? price { get; set; }
         [StringLength(500)]
         [Unicode(false)]
+        [Required]
         public string image { get; set; }
         public int? category_id { get; set; }
 

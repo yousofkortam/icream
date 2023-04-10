@@ -1,0 +1,56 @@
+﻿@model User
+@{
+    ViewData["Title"] = "add_admin";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<!-- general form elements -->
+<div class="box box-primary">
+    <div class="box-header">
+        <h3 class="box-title">Add admin</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <form method="post">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input type="text" asp-for=name class="form-control" id="exampleInputEmail1" placeholder="Name">
+                <span class="text-danger" asp-validation-for="name"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Username</label>
+                <input type="text" asp-for=username class="form-control" id="exampleInputPassword1" placeholder="Username">
+                <span class="text-danger" asp-validation-for="username"></span>
+                <span class="text text-danger">@ViewBag.UsernameIsExist</span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Email</label>
+                <input type="text" asp-for=email class="form-control" id="exampleInputPassword1" placeholder="Email">
+                <span class="text-danger" asp-validation-for="email"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" asp-for=password class="form-control" id="exampleInputPassword1" placeholder="Password">
+                <span class="text-danger" asp-validation-for="password"></span>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Confirm Password</label>
+                <input type="password" asp-for=confirm_password class="form-control" id="exampleInputPassword1" placeholder="Comfirm Password">
+                <span class="text-danger" asp-validation-for="confirm_password"></span>
+            </div>
+        </div>
+
+        <div class="box-footer">
+            <input type="submit" value="Add" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
+
+
+

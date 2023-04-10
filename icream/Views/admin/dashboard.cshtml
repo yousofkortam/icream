@@ -1,0 +1,36 @@
+﻿@model List<Product>
+@{
+    ViewData["Title"] = "dashboard";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Category</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int counter = 0;
+        }
+        @foreach(Product product in Model)
+        {
+            <tr>
+                <th scope="row">@(++counter)</th>
+                <td>@product.name</td>
+                <td>$@product.price</td>
+                <td>@product.category.name</td>
+                <td>
+                    <a class="text-info" href="/admin/editProduct/@product.id">Edit</a>
+                    <span> | </span>
+                    <a class="text-danger" onclick="return confirm('Are your sure to delete @product.name product?')" href="/admin/deleteProduct/@product.id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

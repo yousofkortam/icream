@@ -2,43 +2,50 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace icream.Controllers
 {
     public class adminController : Controller
     {
         icreamContext db;
-        public IActionResult Index()
-        {
-            return View();
-        }
 
-        public IActionResult login()
+        public IActionResult dashboard()
         {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult login(string username, string password)
-        {
-            db = new icreamContext();
-            var user = db.Users.Where(u => u.username == username && u.password == password && u.role == 0).FirstOrDefault();
-            if (user == null)
+            int? uid = HttpContext.Session.GetInt32("userid");
+            if (uid == null)
             {
-                ViewBag.status = "Icorrect username or password";
-                return RedirectToAction("login");
+                return RedirectToAction("login", "user");
             }
-            HttpContext.Session.SetInt32("userid", user.id);
-            return RedirectToAction("Index");
+            db = new icreamContext();
+            var user = db.Users.Where(n => n.id == uid).FirstOrDefault();
+            if (user.is_admin == false)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var products = db.Products.Include(n => n.category).ToList();
+            return View(products);
         }
 
-        public IActionResult addAdmin()
+        public IActionResult add_admin()
         {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult addAdmin(User user)
+        bool isValid(User user)
         {
+            if (user.name == null || user.username == null || user.email == null || user.password == null || user.confirm_password == null || user.password != user.confirm_password) return false;
+            return true;
+        }
+
+        [HttpPost]
+        public IActionResult add_admin(User user)
+        {
+            if (!isValid(user))
+            {
+                return View();
+            }
             db = new icreamContext();
             var exist = db.Users.Where(n => n.username == user.username).SingleOrDefault();
             if (exist != null)
@@ -47,42 +54,67 @@ namespace icream.Controllers
                 return View();
             }
 
-            user.role = 0; // 0 -> admin
+            user.is_admin = true; // true -> admin
             user.created_at = DateTime.Now;
             user.image = "/attachs/image/Profiles/Default-photo.jpg";
             db.Users.Add(user);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("add_admin");
         }
 
-        public IActionResult addProduct()
+        public IActionResult add_product()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult addProduct(Product product)
+        public IActionResult add_product(Product product, IFormFile img)
         {
+            if (product.name == null || product.price == null || img == null)
+            {
+                return View();
+            }
+            string path = $"wwwroot/attachs/image/Products/{img.FileName}";
+            FileStream fileStream = new FileStream(path, FileMode.Create);
+            img.CopyTo(fileStream);
+            product.image = $"/attachs/image/Products/{img.FileName}";
             db = new icreamContext();
             db.Products.Add(product);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("dashboard");
         }
 
-        public IActionResult editProduct()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult editProduct(Product product)
+        public IActionResult editProduct(int id)
         {
             db = new icreamContext();
-            db.Entry(product).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            var product = db.Products.Find(id);
+            if (product == null)
+            {
+                return RedirectToAction("dashboard");
+            }
+            return View(product);
         }
+
         [HttpPost]
+        public IActionResult editProduct(Product product, int id)
+        {
+            db = new icreamContext();
+            var old_product = db.Products.Find(id);
+            if (old_product == null)
+            {
+                return RedirectToAction("dashboard");
+            }
+            if (product.image != null)
+            {
+                old_product.image = product.image;
+            }
+            old_product.name = product.name;
+            old_product.price = product.price;
+            old_product.category_id = product.category_id;
+            db.SaveChanges();
+            return RedirectToAction("dashboard");
+        }
+
         public IActionResult deleteProduct(int id)
         {
             db = new icreamContext();
@@ -90,11 +122,11 @@ namespace icream.Controllers
             if (product == null)
             {
                 ViewBag.DeleteProductState = "Product not found";
-                return RedirectToAction("Index");
+                return RedirectToAction("dashboard");
             }
             db.Products.Remove(product);
             db.SaveChanges();
-            return View();
+            return RedirectToAction("dashboard");
         }
 
 

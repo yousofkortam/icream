@@ -14,17 +14,18 @@ namespace icream.Controllers
         }
 
         [HttpPost]
-        public IActionResult login(string username, string password)
+        public IActionResult login(string username, string password, bool is_admin)
         {
             // TODO
             db = new icreamContext();
-            var getUser = db.Users.Where(n => (n.username == username || n.email == username) && n.password == password && n.role == 1).SingleOrDefault();
+            var getUser = db.Users.Where(n => (n.username == username || n.email == username) && n.password == password && n.is_admin == is_admin).SingleOrDefault();
             if (getUser == null)
             {
                 ViewBag.status = "Incorrect username or password";
                 return View();
             }
             HttpContext.Session.SetInt32("userid", getUser.id);
+            HttpContext.Session.SetString("role", getUser.is_admin == true? "Admin" : "Not Admin");
             return RedirectToAction("Index", "Home");
         }
 
@@ -47,7 +48,7 @@ namespace icream.Controllers
 
             user.image = "/attachs/image/Profiles/Default-photo.jpg";
             user.created_at = DateTime.Now;
-            user.role = 1; // 1 -> user
+            user.is_admin = false; // false -> user
             db.Users.Add(user);
             db.SaveChanges();
             return RedirectToAction("login");

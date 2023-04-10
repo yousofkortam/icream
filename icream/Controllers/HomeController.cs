@@ -24,6 +24,12 @@ namespace icream.Controllers
             ViewBag.products = products;
             List<Clients_say> reviews = db.Clients_says.Include(u => u.user).ToList();
             ViewBag.reviews = reviews;
+            int? uid = HttpContext.Session.GetInt32("userid");
+            if (uid != null)
+            {
+                var user = db.Users.Where(u => u.id == uid).Select(n => n.is_admin).SingleOrDefault();
+                ViewBag.is_admin = user;
+            }
             return View();
         }
 

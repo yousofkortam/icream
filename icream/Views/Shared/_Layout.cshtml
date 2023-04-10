@@ -71,7 +71,12 @@
                         }else
                         {
                             <a class="cart mr-3" style="color: white; pointer-events: curser" href="/cart"><i class="fa fa-shopping-cart"></i></a>
-                            <span class="text-white mr-3">|</span>
+                            <span class="text-white">|</span>
+                            @if (Context.Session.GetString("role") == "Admin")
+                            {
+                                <a class="text-white px-3" href="/admin/dashboard">Admin</a>
+                                <span class="text-white mr-3">|</span>
+                            }
                             <a class="text-white pr-3" href="/user/profile/@Context.Session.GetInt32("userid")">Profile</a>
                             <span class="text-white">|</span>
                             <a class="text-white px-3" href="/user/logout">Logout</a>
