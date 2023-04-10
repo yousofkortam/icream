@@ -10,26 +10,36 @@ namespace icream.Controllers
     {
         icreamContext db;
 
+
+        private bool isAdmin(int? uid)
+        {
+            string? role = HttpContext.Session.GetString("role");
+            if (uid == null || role != "Admin")
+            {
+                return false;
+            }
+            return true;
+        }
+
         public IActionResult dashboard()
         {
             int? uid = HttpContext.Session.GetInt32("userid");
-            if (uid == null)
+            if (!isAdmin(uid))
             {
                 return RedirectToAction("login", "user");
             }
             db = new icreamContext();
-            var user = db.Users.Where(n => n.id == uid).FirstOrDefault();
-            if (user.is_admin == false)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
             var products = db.Products.Include(n => n.category).ToList();
             return View(products);
         }
 
         public IActionResult add_admin()
         {
+            int? uid = HttpContext.Session.GetInt32("userid");
+            if (!isAdmin(uid))
+            {
+                return RedirectToAction("login", "user");
+            }
             return View();
         }
 
@@ -50,7 +60,7 @@ namespace icream.Controllers
             var exist = db.Users.Where(n => n.username == user.username).SingleOrDefault();
             if (exist != null)
             {
-                ViewBag.UsernameIsExist = "username already in use";
+                ViewBag.UsernameIsExist = "Username already in use";
                 return View();
             }
 
@@ -64,16 +74,17 @@ namespace icream.Controllers
 
         public IActionResult add_product()
         {
+            int? uid = HttpContext.Session.GetInt32("userid");
+            if (!isAdmin(uid))
+            {
+                return RedirectToAction("login", "user");
+            }
             return View();
         }
 
         [HttpPost]
         public IActionResult add_product(Product product, IFormFile img)
         {
-            if (product.name == null || product.price == null || img == null)
-            {
-                return View();
-            }
             string path = $"wwwroot/attachs/image/Products/{img.FileName}";
             FileStream fileStream = new FileStream(path, FileMode.Create);
             img.CopyTo(fileStream);
@@ -86,6 +97,11 @@ namespace icream.Controllers
 
         public IActionResult editProduct(int id)
         {
+            int? uid = HttpContext.Session.GetInt32("userid");
+            if (!isAdmin(uid))
+            {
+                return RedirectToAction("login", "user");
+            }
             db = new icreamContext();
             var product = db.Products.Find(id);
             if (product == null)
@@ -117,6 +133,11 @@ namespace icream.Controllers
 
         public IActionResult deleteProduct(int id)
         {
+            int? uid = HttpContext.Session.GetInt32("userid");
+            if (!isAdmin(uid))
+            {
+                return RedirectToAction("login", "user");
+            }
             db = new icreamContext();
             var product = db.Products.Where(p => p.id == id).FirstOrDefault();
             if (product == null)
