@@ -1,0 +1,52 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "orders";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">All Orders</h3>
+        <div class="box-tools">
+            <div class="input-group">
+                <input type="text" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search" />
+                <div class="input-group-btn">
+                    <button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Products</th>
+                <th>Action</th>
+            </tr>
+            @foreach(Order order in Model)
+            {
+                <tr>
+                    <td>@order.id</td>
+                    <td>@order.user.name</td>
+                    <td>11-7-2023</td>
+                    <td><span class="label label-success">Delivered</span></td>
+                    <td>
+                        <a href="/admin/products">products</a>
+                    </td>
+                    <td>
+                        <a href="" class="text text-success">Delivered</a>
+                        <span> | </span>
+                        <a href="" class="text text-info">shipping</a>
+                        <span> | </span>
+                        <a href="" class="text text-danger">Comming</a>
+                    </td>
+                </tr>
+            }
+            
+        </table>
+    </div>
+</div>
+

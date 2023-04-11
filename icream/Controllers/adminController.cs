@@ -149,5 +149,17 @@ namespace icream.Controllers
         }
 
 
+        public IActionResult orders()
+        {
+            int? uid = HttpContext.Session.GetInt32("userid");
+            if (!isAdmin(uid))
+            {
+                return RedirectToAction("login", "user");
+            }
+            var orders = db.Orders.Include(u => u.user).ToList();
+            return View(orders);
+        }
+
+
     }
 }
